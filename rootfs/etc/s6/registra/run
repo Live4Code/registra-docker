@@ -8,4 +8,4 @@ fi
 STARTCMD="/bin/registrator"
 
 
-exec ${STARTCMD} $backend
+exec ${STARTCMD} $BACKEND
