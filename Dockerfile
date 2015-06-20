@@ -6,17 +6,16 @@ ENV REGISTRATOR_BRANCH master
 ENV GOPATH /usr
 
 
-#RUN apk-install -t build-deps go git mercurial && \
-RUN apk add --update build-base  git go && \
-git clone -b ${REGISTRATOR_BRANCH} ${REGISTRATOR_REPO} ${GOPATH}/src/${REGISTRATOR_PATH} && \
+RUN apk add --update build-base git go  
+RUN git clone -b ${REGISTRATOR_BRANCH} ${REGISTRATOR_REPO} ${GOPATH}/src/${REGISTRATOR_PATH} && \
   cd ${GOPATH}/src/${REGISTRATOR_PATH} && \
   go get && \
   go build -ldflags "-X main.Version $(cat VERSION)" -o /bin/registrator && \
-  apk del --purge  build-base git go && \
+  apk del build-base git go && \
   rm -rf /var/cache/apk/* && \
   rm -r /usr/src/*
 
 ADD rootfs /
-
 WORKDIR /root
-CMD ["/usr/bin/s6-svscan","/etc/s6/registrator"]
+
+CMD ["/usr/bin/s6-svscan","/etc/s6"]
